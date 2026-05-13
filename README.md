@@ -1,4 +1,4 @@
-# om-editor
+# 🧳 om-editor
 
 Application Python permettant de générer facilement des ordres de mission administratifs à partir de modèles Word.
 
@@ -8,7 +8,7 @@ Le projet repose sur une architecture simple et extensible basée sur Python, St
 
 ---
 
-# État du projet
+# 🚧 État du projet
 
 Le projet est déjà fonctionnel pour une grande partie des usages courants.
 
@@ -25,39 +25,52 @@ Les cas pris en charge incluent :
 
 - trajets en train ;
 - trajets avec carte d’abonnement SNCF ;
+- trajets train + avion ;
 - trajets en voiture ;
+- hébergement ;
+- nuitées ;
+- repas prévisionnels ;
 - profils agent / élève ;
 - trajets multi-étapes ;
 - périodes de convenances personnelles.
 
+L’application permet également :
+
+- la sélection automatique du template adapté ;
+- le préremplissage via profils utilisateurs ;
+- la validation automatique de certains champs ;
+- la gestion de plusieurs workflows administratifs selon le mode de transport.
+
 Certaines parties spécifiques des OM restent encore à compléter manuellement selon les besoins :
 
-- réservation d’hôtel ;
-- repas ;
-- avion ;
-- frais particuliers ;
-- informations CREST / laboratoire ;
-- validations administratives spécifiques.
+- validations administratives internes ;
+- frais très spécifiques ;
+- cas exceptionnels liés aux missions internationales ;
+- intégration poussée avec les outils administratifs du GENES / INSEE.
 
 L’objectif du projet est donc :
+
 > automatiser la partie pénible, répétitive et chronophage des ordres de mission, tout en conservant la possibilité de compléter manuellement les cas particuliers.
 
 ---
 
-# Fonctionnalités
+# ✨ Fonctionnalités
 
 - Génération automatique d’ordres de mission `.docx`
 - Profils missionnaires sauvegardés
 - Types de mission préconfigurés
 - Préremplissage des informations récurrentes
 - Gestion des trajets multi-étapes
-- Support train / abonnement SNCF / voiture
+- Support train / abonnement SNCF / train + avion / voiture
+- Gestion des hébergements et nuitées
+- Gestion des repas prévisionnels
 - Templates distincts agent / élève
+- Validation automatique de certains champs
 - Interface Streamlit légère et simple d’utilisation
 
 ---
 
-# Technologies utilisées
+# 🛠️ Technologies utilisées
 
 - Python
 - Streamlit
@@ -68,7 +81,7 @@ L’objectif du projet est donc :
 
 ---
 
-# Installation
+# ⚙️ Installation
 
 ## 1. Cloner le dépôt
 
@@ -87,7 +100,7 @@ uv sync
 
 ---
 
-# Lancement
+# ▶️ Lancement
 
 ```bash
 uv run streamlit run app.py
@@ -95,7 +108,7 @@ uv run streamlit run app.py
 
 ---
 
-# Structure du projet
+# 📁 Structure du projet
 
 ```text
 om-editor/
@@ -110,7 +123,7 @@ om-editor/
 
 ---
 
-# Configuration des profils
+# 👤 Configuration des profils
 
 Le dossier `data/` est ignoré par Git afin de permettre à chaque utilisateur de conserver ses propres profils locaux.
 
@@ -140,7 +153,7 @@ Ces profils permettent de préremplir automatiquement les informations du missio
 
 ---
 
-# Configuration des types de mission
+# 🧾 Configuration des types de mission
 
 Créer un fichier :
 
@@ -174,7 +187,7 @@ conference:
 
 ---
 
-# Génération des documents
+# 📄 Génération des documents
 
 Les documents générés sont enregistrés dans :
 
@@ -186,20 +199,26 @@ Le dossier est ignoré par Git afin d’éviter de versionner des documents gén
 
 ---
 
-# Roadmap
+# 🗺️ Roadmap
 
 Fonctionnalités envisagées :
 
 - Export PDF
 - Historique des missions
 - Déploiement web léger
-- Support complet des missions avion
 - Génération automatique des réservations
-- Remplissage avancé des frais et nuitées
+- Intégration plus poussée des frais administratifs
+- Support avancé des missions internationales
 
 ---
 
-# Licence
+# 👨‍💻 Auteur
+
+- Maxime ROUX
+
+---
+
+# 📜 Licence
 
 Projet distribué sous licence GNU GPL v3.
 
