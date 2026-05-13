@@ -32,6 +32,7 @@ def build_context(
     mission: dict,
     signature: dict,
     trajets: list[dict[str, str]],
+    vehicle: dict | None = None,
 ) -> dict:
     context = {
         "nom": missionnaire["nom"],
@@ -57,5 +58,16 @@ def build_context(
 
     for trajet in trajets:
         context.update(trajet)
+
+    vehicle = vehicle or {}
+
+    context.update(
+        {
+            "type_vehicule": vehicle.get("type_vehicule", ""),
+            "motif_vehicule": vehicle.get("motif_vehicule", ""),
+            "kilometrage_vehicule": vehicle.get("kilometrage_vehicule", ""),
+            "immatriculation_vehicule": vehicle.get("immatriculation_vehicule", ""),
+        }
+    )
 
     return context

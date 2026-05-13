@@ -167,3 +167,26 @@ def dynamic_trajets_inputs(
         trajets.append(trajet)
 
     return trajets
+
+def vehicle_inputs() -> dict[str, str]:
+    st.header("6. Véhicule")
+
+    type_vehicule = st.selectbox(
+        "Type de véhicule",
+        ["personnel", "location", "co-voiturage"],
+    )
+
+    motif_vehicule = st.text_input(
+        "Motif d'utilisation",
+        placeholder="matériel encombrant, destination hors réseau de transport...",
+    )
+
+    kilometrage_vehicule = st.text_input("Kilométrage prévu")
+    immatriculation_vehicule = st.text_input("Immatriculation")
+
+    return {
+        "type_vehicule": type_vehicule,
+        "motif_vehicule": motif_vehicule,
+        "kilometrage_vehicule": kilometrage_vehicule,
+        "immatriculation_vehicule": immatriculation_vehicule,
+    }
