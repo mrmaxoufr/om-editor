@@ -9,6 +9,24 @@ def trajet_inputs(
     default_depart: str = "",
     default_arrivee: str = "",
 ) -> dict[str, str]:
+    """Display Streamlit inputs for a single trip segment.
+
+    Parameters
+    ----------
+    prefix:
+        Prefix used to generate unique Streamlit keys.
+    title:
+        Section title displayed in the interface.
+    default_depart:
+        Default departure city.
+    default_arrivee:
+        Default arrival city.
+
+    Returns
+    -------
+    dict[str, str]
+        Dictionary containing all trip values.
+    """
     st.markdown(f"### {title}")
 
     col1, col2 = st.columns(2)
@@ -54,10 +72,34 @@ def trajet_inputs(
 
 
 def parse_date(value: str) -> date:
+    """Convert an ISO date string into a Python date object.
+
+    Parameters
+    ----------
+    value:
+        Date string formatted as `YYYY-MM-DD`.
+
+    Returns
+    -------
+    date
+        Parsed Python date object.
+    """
     return datetime.strptime(value, "%Y-%m-%d").date()
 
 
 def missionnaire_inputs(profile: dict | None = None) -> dict:
+    """Display Streamlit inputs for missionnaire information.
+
+    Parameters
+    ----------
+    profile:
+        Optional preloaded profile used to prefill fields.
+
+    Returns
+    -------
+    dict
+        Dictionary containing missionnaire values.
+    """
     profile = profile or {}
 
     st.header("1. Missionnaire")
@@ -102,6 +144,18 @@ def missionnaire_inputs(profile: dict | None = None) -> dict:
 
 
 def mission_inputs(mission_type: dict | None = None) -> dict:
+    """Display Streamlit inputs related to the mission itself.
+
+    Parameters
+    ----------
+    mission_type:
+        Optional mission type preset used to prefill the mission reason.
+
+    Returns
+    -------
+    dict
+        Dictionary containing mission information.
+    """
     mission_type = mission_type or {}
 
     st.header("2. Mission")
@@ -112,10 +166,12 @@ def mission_inputs(mission_type: dict | None = None) -> dict:
     )
 
     col1, col2 = st.columns(2)
+
     with col1:
         date_depart_residence = st.date_input(
             "Date de départ de la résidence"
         )
+
     with col2:
         date_retour_residence = st.date_input(
             "Date de retour à la résidence"
@@ -125,12 +181,28 @@ def mission_inputs(mission_type: dict | None = None) -> dict:
 
 
 def signature_inputs(ville_default: str = "") -> dict:
+    """Display signature-related Streamlit inputs.
+
+    Parameters
+    ----------
+    ville_default:
+        Default city used for the signature location.
+
+    Returns
+    -------
+    dict
+        Dictionary containing signature information.
+    """
     st.header("6. Signature")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        fait_a = st.text_input("Fait à", value=ville_default)
+        fait_a = st.text_input(
+            "Fait à",
+            value=ville_default,
+        )
+
     with col2:
         date_signature = st.date_input(
             "Date de signature",
@@ -139,6 +211,7 @@ def signature_inputs(ville_default: str = "") -> dict:
 
     return locals()
 
+
 def dynamic_trajets_inputs(
     prefix: str,
     title: str,
@@ -146,6 +219,26 @@ def dynamic_trajets_inputs(
     max_value: int = 5,
     default_value: int = 2,
 ) -> list[dict[str, str]]:
+    """Display a dynamic number of trip sections.
+
+    Parameters
+    ----------
+    prefix:
+        Prefix used to generate Streamlit keys.
+    title:
+        Title displayed for the trip section.
+    min_value:
+        Minimum number of trip segments allowed.
+    max_value:
+        Maximum number of trip segments allowed.
+    default_value:
+        Default number of displayed segments.
+
+    Returns
+    -------
+    list[dict[str, str]]
+        List of trip dictionaries.
+    """
     st.header(title)
 
     count = st.number_input(
@@ -168,7 +261,15 @@ def dynamic_trajets_inputs(
 
     return trajets
 
+
 def vehicle_inputs() -> dict[str, str]:
+    """Display vehicle-related inputs for car travel requests.
+
+    Returns
+    -------
+    dict[str, str]
+        Dictionary containing vehicle information.
+    """
     st.header("6. Véhicule")
 
     type_vehicule = st.selectbox(
@@ -178,11 +279,19 @@ def vehicle_inputs() -> dict[str, str]:
 
     motif_vehicule = st.text_input(
         "Motif d'utilisation",
-        placeholder="matériel encombrant, destination hors réseau de transport...",
+        placeholder=(
+            "matériel encombrant, destination hors réseau "
+            "de transport..."
+        ),
     )
 
-    kilometrage_vehicule = st.text_input("Kilométrage prévu")
-    immatriculation_vehicule = st.text_input("Immatriculation")
+    kilometrage_vehicule = st.text_input(
+        "Kilométrage prévu"
+    )
+
+    immatriculation_vehicule = st.text_input(
+        "Immatriculation"
+    )
 
     return {
         "type_vehicule": type_vehicule,
@@ -191,7 +300,15 @@ def vehicle_inputs() -> dict[str, str]:
         "immatriculation_vehicule": immatriculation_vehicule,
     }
 
+
 def subscription_inputs() -> dict[str, str]:
+    """Display transport subscription card inputs.
+
+    Returns
+    -------
+    dict[str, str]
+        Dictionary containing subscription card information.
+    """
     st.header("6. Carte d'abonnement")
 
     nom_carte_abonnement = st.text_input(
@@ -216,6 +333,10 @@ def subscription_inputs() -> dict[str, str]:
     return {
         "nom_carte_abonnement": nom_carte_abonnement,
         "numero_carte_abonnement": numero_carte_abonnement,
-        "debut_validite_carte_abonnement": debut_validite_carte_abonnement,
-        "fin_validite_carte_abonnement": fin_validite_carte_abonnement,
+        "debut_validite_carte_abonnement": (
+            debut_validite_carte_abonnement
+        ),
+        "fin_validite_carte_abonnement": (
+            fin_validite_carte_abonnement
+        ),
     }
