@@ -6,7 +6,7 @@ from src.context_builder import build_context, complete_trajets
 from src.docx_renderer import render_ordre_mission
 from src.forms import dynamic_trajets_inputs
 from src.forms import mission_inputs, missionnaire_inputs, signature_inputs
-from src.forms import vehicle_inputs
+from src.forms import subscription_inputs, vehicle_inputs
 from src.mission_type_loader import load_mission_types
 from src.profile_loader import load_profiles
 
@@ -61,8 +61,12 @@ statut = st.radio(
 
 transport = st.radio(
     "Mode de transport",
-    ["train", "voiture"],
-    format_func=lambda value: "Train" if value == "train" else "Voiture",
+    ["train", "abonnement", "voiture"],
+    format_func=lambda value: {
+        "train": "Train",
+        "abonnement": "Train avec carte d'abonnement",
+        "voiture": "Voiture",
+    }[value],
     horizontal=True,
 )
 
@@ -102,9 +106,13 @@ with st.form("om_form"):
     )
 
     vehicle = {}
+    subscription = {}
 
     if transport == "voiture":
         vehicle = vehicle_inputs()
+
+    if transport == "abonnement":
+        subscription = subscription_inputs()
 
     signature = signature_inputs(missionnaire["ville"])
 
@@ -113,7 +121,27 @@ with st.form("om_form"):
 if submitted:
     if transport == "voiture":
         template_lines = 3
-        template_name = f"ordre_mission_template_{statut}_voiture_3_lignes.docx"
+        template_name = (
+            f"ordre_mission_template_{statut}_voiture_3_lignes.docx"
+        )
+
+    elif transport == "abonnement":
+        max_selected_trajets = max(
+            len(trajets_aller),
+            len(trajets_retour),
+        )
+
+        if max_selected_trajets <= 3:
+            template_lines = 3
+            template_name = (
+                f"ordre_mission_template_{statut}_abonnement_3_lignes.docx"
+            )
+        else:
+            template_lines = 5
+            template_name = (
+                f"ordre_mission_template_{statut}_abonnement_5_lignes.docx"
+            )
+
     else:
         max_selected_trajets = max(
             len(trajets_aller),
@@ -122,10 +150,14 @@ if submitted:
 
         if max_selected_trajets <= 3:
             template_lines = 3
-            template_name = f"ordre_mission_template_{statut}_3_lignes.docx"
+            template_name = (
+                f"ordre_mission_template_{statut}_3_lignes.docx"
+            )
         else:
             template_lines = 5
-            template_name = f"ordre_mission_template_{statut}_5_lignes.docx"
+            template_name = (
+                f"ordre_mission_template_{statut}_5_lignes.docx"
+            )
 
     template_path = TEMPLATES_DIR / template_name
 
@@ -158,6 +190,7 @@ if submitted:
         signature=signature,
         trajets=trajets,
         vehicle=vehicle,
+        subscription=subscription,
     )
 
     GENERATED_DIR.mkdir(exist_ok=True)

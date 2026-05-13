@@ -33,6 +33,7 @@ def build_context(
     signature: dict,
     trajets: list[dict[str, str]],
     vehicle: dict | None = None,
+    subscription: dict | None = None,
 ) -> dict:
     context = {
         "nom": missionnaire["nom"],
@@ -60,13 +61,33 @@ def build_context(
         context.update(trajet)
 
     vehicle = vehicle or {}
+    subscription = subscription or {}
 
     context.update(
         {
             "type_vehicule": vehicle.get("type_vehicule", ""),
             "motif_vehicule": vehicle.get("motif_vehicule", ""),
             "kilometrage_vehicule": vehicle.get("kilometrage_vehicule", ""),
-            "immatriculation_vehicule": vehicle.get("immatriculation_vehicule", ""),
+            "immatriculation_vehicule": vehicle.get(
+                "immatriculation_vehicule",
+                "",
+            ),
+            "nom_carte_abonnement": subscription.get(
+                "nom_carte_abonnement",
+                "",
+            ),
+            "numero_carte_abonnement": subscription.get(
+                "numero_carte_abonnement",
+                "",
+            ),
+            "debut_validite_carte_abonnement": subscription.get(
+                "debut_validite_carte_abonnement",
+                "",
+            ),
+            "fin_validite_carte_abonnement": subscription.get(
+                "fin_validite_carte_abonnement",
+                "",
+            ),
         }
     )
 

@@ -190,3 +190,32 @@ def vehicle_inputs() -> dict[str, str]:
         "kilometrage_vehicule": kilometrage_vehicule,
         "immatriculation_vehicule": immatriculation_vehicule,
     }
+
+def subscription_inputs() -> dict[str, str]:
+    st.header("6. Carte d'abonnement")
+
+    nom_carte_abonnement = st.text_input(
+        "Nom de la carte / formule tarifaire",
+        placeholder="Carte Avantage Jeune, Liberté, etc.",
+    )
+
+    numero_carte_abonnement = st.text_input(
+        "Numéro de carte",
+    )
+
+    debut_validite_carte_abonnement = st.text_input(
+        "Début de validité",
+        placeholder="jj/mm/aaaa",
+    )
+
+    fin_validite_carte_abonnement = st.text_input(
+        "Fin de validité",
+        placeholder="jj/mm/aaaa",
+    )
+
+    return {
+        "nom_carte_abonnement": nom_carte_abonnement,
+        "numero_carte_abonnement": numero_carte_abonnement,
+        "debut_validite_carte_abonnement": debut_validite_carte_abonnement,
+        "fin_validite_carte_abonnement": fin_validite_carte_abonnement,
+    }
