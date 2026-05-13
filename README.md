@@ -204,9 +204,7 @@ Le dossier est ignoré par Git afin d’éviter de versionner des documents gén
 Fonctionnalités envisagées :
 
 - Export PDF
-- Historique des missions
 - Déploiement web léger
-- Génération automatique des réservations
 - Intégration plus poussée des frais administratifs
 - Support avancé des missions internationales
 
