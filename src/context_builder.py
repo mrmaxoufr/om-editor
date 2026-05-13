@@ -84,6 +84,8 @@ def build_context(
     trajets: list[dict[str, str]],
     vehicle: dict | None = None,
     subscription: dict | None = None,
+    airplane: dict | None = None,
+    accommodation: dict | None = None,
 ) -> dict:
     """Build the rendering context for the DOCX template.
 
@@ -142,6 +144,8 @@ def build_context(
 
     vehicle = vehicle or {}
     subscription = subscription or {}
+    airplane = airplane or {}
+    accommodation = accommodation or {}
 
     context.update(
         {
@@ -169,6 +173,19 @@ def build_context(
             ),
             "fin_validite_carte_abonnement": subscription.get(
                 "fin_validite_carte_abonnement",
+                "",
+            ),
+            "nom_aeroport": airplane.get("nom_aeroport", ""),
+            "hebergement_nom": accommodation.get("hebergement_nom", ""),
+            "hebergement_adresse": accommodation.get("hebergement_adresse", ""),
+            "nombre_nuitees": accommodation.get("nombre_nuitees", ""),
+            "arrive_dates_nuitees": accommodation.get("arrive_dates_nuitees", ""),
+            "depart_dates_nuitees": accommodation.get("depart_dates_nuitees", ""),
+            "nombre_repas": accommodation.get("nombre_repas", ""),
+
+            # Alias temporaire pour les templates avec typo.
+            "debut_validite_carte_abonnemen": subscription.get(
+                "debut_validite_carte_abonnement",
                 "",
             ),
         }

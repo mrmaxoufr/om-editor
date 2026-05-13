@@ -340,3 +340,70 @@ def subscription_inputs() -> dict[str, str]:
             fin_validite_carte_abonnement
         ),
     }
+
+def airplane_inputs() -> dict[str, str]:
+    """Display airplane-related inputs."""
+    st.header("6. Avion")
+
+    nom_aeroport = st.text_input(
+        "Nom de l'aéroport souhaité",
+        placeholder="Paris-Orly, Paris-CDG, Rennes, etc.",
+    )
+
+    return {
+        "nom_aeroport": nom_aeroport,
+    }
+
+
+def accommodation_inputs() -> dict[str, str]:
+    """Display accommodation and meal inputs."""
+    st.header("7. Hébergement et repas")
+
+    hebergement_type = st.selectbox(
+        "Type d'hébergement",
+        ["aucun", "hotel", "autre"],
+        format_func=lambda value: {
+            "aucun": "Aucun",
+            "hotel": "Hôtel",
+            "autre": "Autre",
+        }[value],
+    )
+
+    hebergement_nom = ""
+    hebergement_adresse = ""
+    nombre_nuitees = ""
+    arrive_dates_nuitees = ""
+    depart_dates_nuitees = ""
+    nombre_repas = ""
+
+    if hebergement_type != "aucun":
+        hebergement_nom = st.text_input(
+            "Nom de l'hébergement",
+        )
+        hebergement_adresse = st.text_input(
+            "Adresse / secteur",
+        )
+        nombre_nuitees = st.text_input(
+            "Nombre de nuitées à réserver",
+        )
+        arrive_dates_nuitees = st.text_input(
+            "Date d'arrivée pour les nuitées",
+            placeholder="jj/mm/aaaa",
+        )
+        depart_dates_nuitees = st.text_input(
+            "Date de départ des nuitées",
+            placeholder="jj/mm/aaaa",
+        )
+        nombre_repas = st.text_input(
+            "Nombre de repas prévisionnel",
+        )
+
+    return {
+        "hebergement_type": hebergement_type,
+        "hebergement_nom": hebergement_nom,
+        "hebergement_adresse": hebergement_adresse,
+        "nombre_nuitees": nombre_nuitees,
+        "arrive_dates_nuitees": arrive_dates_nuitees,
+        "depart_dates_nuitees": depart_dates_nuitees,
+        "nombre_repas": nombre_repas,
+    }
