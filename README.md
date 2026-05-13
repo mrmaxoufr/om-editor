@@ -191,7 +191,6 @@ Le dossier est ignoré par Git afin d’éviter de versionner des documents gén
 Fonctionnalités envisagées :
 
 - Export PDF
-- Validation automatique des champs
 - Historique des missions
 - Déploiement web léger
 - Support complet des missions avion
