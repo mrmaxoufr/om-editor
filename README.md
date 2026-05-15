@@ -104,7 +104,7 @@ L’objectif du projet est donc :
 ## 1. Cloner le dépôt
 
 ```bash
-git clone https://github.com/<votre-utilisateur>/om-editor.git
+git clone https://github.com/MaximeRoux-ENSAI/om-editor.git
 cd om-editor
 ```
 
