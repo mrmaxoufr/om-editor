@@ -25,6 +25,28 @@ GENERATED_DIR = ROOT_DIR / "generated"
 PROFILES_PATH = ROOT_DIR / "data" / "profils.yaml"
 MISSION_TYPES_PATH = ROOT_DIR / "data" / "mission_types.yaml"
 
+STATUT_LABELS = {
+    "eleve": "Élève",
+    "agent": "Agent",
+}
+
+RESIDENCE_LABELS = {
+    "familiale": "Familiale",
+    "administrative": "Administrative",
+}
+
+RESIDENCE_TEMPLATE_DIRS = {
+    "familiale": "Familiale",
+    "administrative": "Administrative",
+}
+
+TRANSPORT_LABELS = {
+    "train": "Train",
+    "abonnement": "Train avec carte d'abonnement",
+    "voiture": "Voiture",
+    "train_avion": "Train + avion",
+}
+
 
 def select_template(
     statut: str,
@@ -114,6 +136,11 @@ def select_template(
     )
 
 
+def get_template_path(residence: str, template_name: str) -> Path:
+    """Build the template path for the selected residence type."""
+    return TEMPLATES_DIR / RESIDENCE_TEMPLATE_DIRS[residence] / template_name
+
+
 def load_local_data() -> tuple[dict, dict]:
     """Load local YAML configuration files.
 
@@ -174,22 +201,24 @@ def main() -> None:
 
     statut = st.radio(
         "Statut",
-        ["agent", "eleve"],
-        format_func=lambda value: (
-            "Agent" if value == "agent" else "Élève"
-        ),
+        list(STATUT_LABELS),
+        index=0,
+        format_func=lambda value: STATUT_LABELS[value],
+        horizontal=True,
+    )
+
+    residence = st.radio(
+        "Résidence de départ et de retour",
+        list(RESIDENCE_LABELS),
+        index=0,
+        format_func=lambda value: RESIDENCE_LABELS[value],
         horizontal=True,
     )
 
     transport = st.radio(
         "Mode de transport",
-        ["train", "abonnement", "voiture", "train_avion"],
-        format_func=lambda value: {
-            "train": "Train",
-            "abonnement": "Train avec carte d'abonnement",
-            "voiture": "Voiture",
-            "train_avion": "Train + avion",
-        }[value],
+        list(TRANSPORT_LABELS),
+        format_func=lambda value: TRANSPORT_LABELS[value],
         horizontal=True,
     )
 
@@ -262,12 +291,16 @@ def main() -> None:
         accommodation=accommodation,
     )
 
-    template_path = TEMPLATES_DIR / template_name
+    template_path = get_template_path(
+        residence=residence,
+        template_name=template_name,
+    )
+    template_relative_path = template_path.relative_to(ROOT_DIR)
 
     if not template_path.exists():
         st.error(
             "Le template attendu est introuvable : "
-            f"`{template_name}`"
+            f"`{template_relative_path}`"
         )
         st.stop()
 
@@ -318,7 +351,7 @@ def main() -> None:
 
     output_path = GENERATED_DIR / (
         f"OM_{context['nom']}_{context['prenom']}_"
-        f"{statut}_{transport}.docx"
+        f"{statut}_{residence}_{transport}.docx"
     )
 
     render_ordre_mission(
@@ -329,7 +362,7 @@ def main() -> None:
 
     st.success(
         "Ordre de mission généré avec le template : "
-        f"`{template_name}`"
+        f"`{template_relative_path}`"
     )
 
     with open(output_path, "rb") as file:
