@@ -25,6 +25,18 @@ GENERATED_DIR = ROOT_DIR / "generated"
 PROFILES_PATH = ROOT_DIR / "data" / "profils.yaml"
 MISSION_TYPES_PATH = ROOT_DIR / "data" / "mission_types.yaml"
 
+STATUT_LABELS = {
+    "eleve": "Élève",
+    "agent": "Agent",
+}
+
+TRANSPORT_LABELS = {
+    "train": "Train",
+    "abonnement": "Train avec carte d'abonnement",
+    "voiture": "Voiture",
+    "train_avion": "Train + avion",
+}
+
 
 def select_template(
     statut: str,
@@ -174,22 +186,16 @@ def main() -> None:
 
     statut = st.radio(
         "Statut",
-        ["agent", "eleve"],
-        format_func=lambda value: (
-            "Agent" if value == "agent" else "Élève"
-        ),
+        list(STATUT_LABELS),
+        index=0,
+        format_func=lambda value: STATUT_LABELS[value],
         horizontal=True,
     )
 
     transport = st.radio(
         "Mode de transport",
-        ["train", "abonnement", "voiture", "train_avion"],
-        format_func=lambda value: {
-            "train": "Train",
-            "abonnement": "Train avec carte d'abonnement",
-            "voiture": "Voiture",
-            "train_avion": "Train + avion",
-        }[value],
+        list(TRANSPORT_LABELS),
+        format_func=lambda value: TRANSPORT_LABELS[value],
         horizontal=True,
     )
 
